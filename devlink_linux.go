@@ -822,6 +822,9 @@ func DevlinkGetDeviceParamByName(bus string, device string, param string) (*Devl
 // Equivalent to: devlink port split <bus>/<device>/<index> count N
 func (h *Handle) DevlinkSplitPort(port DevlinkPort, count uint8) error {
 	_, req, err := h.createCmdReq(nl.DEVLINK_CMD_PORT_SPLIT, port.BusName, port.DeviceName);
+	if err != nil {
+		return err
+	}
 
 	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
 	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_SPLIT_COUNT, nl.Uint8Attr(count)));
@@ -834,6 +837,9 @@ func (h *Handle) DevlinkSplitPort(port DevlinkPort, count uint8) error {
 // Equivalent to devlink port unsplit <bus>/<device>/<index>
 func (h *Handle) DevlinkUnsplitPort(port DevlinkPort) error {
 	_, req, err := h.createCmdReq(nl.DEVLINK_CMD_PORT_UNSPLIT, port.BusName, port.DeviceName);
+	if err != nil {
+		return err
+	}
 
 	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
 
