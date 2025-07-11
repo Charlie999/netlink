@@ -818,6 +818,29 @@ func DevlinkGetDeviceParamByName(bus string, device string, param string) (*Devl
 	return pkgHandle.DevlinkGetDeviceParamByName(bus, device, param)
 }
 
+// DevlinkSplitPort: split devlink port
+// Equivalent to: devlink port split <bus>/<device>/<index> count N
+func (h *Handle) DevlinkSplitPort(port DevlinkPort, count uint8) error {
+	_, req, err := h.createCmdReq(nl.DEVLINK_CMD_PORT_SPLIT, port.BusName, port.DeviceName);
+
+	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
+	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_SPLIT_COUNT, nl.Uint8Attr(count)));
+
+	_, err = req.Execute(unix.NETLINK_GENERIC, 0)
+	return err
+}
+
+// DevlinkUnsplitPort: unsplit devlink port
+// Equivalent to devlink port unsplit <bus>/<device>/<index>
+func (h *Handle) DevlinkUnsplitPort(port DevlinkPort) error {
+	_, req, err := h.createCmdReq(nl.DEVLINK_CMD_PORT_UNSPLIT, port.BusName, port.DeviceName);
+
+	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
+
+	_, err = req.Execute(unix.NETLINK_GENERIC, 0)
+	return err
+}
+
 // DevlinkSetDeviceParam set specific parameter for devlink device
 // Equivalent to: `devlink dev param set <bus>/<device> name <param> cmode <cmode> value <value>`
 // cmode argument should contain valid cmode value as uint8, modes are define in nl.DEVLINK_PARAM_CMODE_* constants
