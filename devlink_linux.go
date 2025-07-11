@@ -826,8 +826,8 @@ func (h *Handle) DevlinkSplitPort(port DevlinkPort, count uint8) error {
 		return err
 	}
 
-	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
-	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_SPLIT_COUNT, nl.Uint8Attr(count)));
+	req.AddData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
+	req.AddData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_SPLIT_COUNT, nl.Uint32Attr(count)));
 
 	_, err = req.Execute(unix.NETLINK_GENERIC, 0)
 	return err
@@ -841,7 +841,7 @@ func (h *Handle) DevlinkUnsplitPort(port DevlinkPort) error {
 		return err
 	}
 
-	req.addData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
+	req.AddData(nl.NewRtAttr(nl.DEVLINK_ATTR_PORT_INDEX, nl.Uint32Attr(port.PortIndex)));
 
 	_, err = req.Execute(unix.NETLINK_GENERIC, 0)
 	return err
