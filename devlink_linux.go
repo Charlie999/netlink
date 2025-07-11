@@ -7,7 +7,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/vishvananda/netlink/nl"
+	"github.com/charlie999/netlink/nl"
 	"golang.org/x/sys/unix"
 )
 
@@ -820,7 +820,7 @@ func DevlinkGetDeviceParamByName(bus string, device string, param string) (*Devl
 
 // DevlinkSplitPort: split devlink port
 // Equivalent to: devlink port split <bus>/<device>/<index> count N
-func (h *Handle) DevlinkSplitPort(port DevlinkPort, count uint8) error {
+func (h *Handle) DevlinkSplitPort(port DevlinkPort, count uint32) error {
 	_, req, err := h.createCmdReq(nl.DEVLINK_CMD_PORT_SPLIT, port.BusName, port.DeviceName);
 	if err != nil {
 		return err
