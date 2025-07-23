@@ -9,7 +9,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/vishvananda/netlink/nl"
+	"github.com/charlie999/netlink/nl"
 	"golang.org/x/sys/unix"
 )
 
